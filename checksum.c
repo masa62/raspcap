@@ -75,7 +75,7 @@ u_int16_t checksum2(u_char *data1,int len1,u_char *data2,int len2)
         if(sum&0x80000000){
             sum=(sum&0xFFFF)+(sum>>16);
         }
-        ptr;
+        ptr++;
     }
     if(c==1){
         u_int16_t       val;

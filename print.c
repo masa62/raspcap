@@ -208,6 +208,7 @@ int PrintIpHeader(struct iphdr *iphdr,u_char *option,int optionLen,FILE *fp)
                 fprintf(fp,"%02x",option[i]);
             }
         }
+        fprintf(fp,"\n");
     }
     return(0);
 }

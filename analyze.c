@@ -94,6 +94,8 @@ int AnalyzeTcp(u_char *data, int size)
     if(lest<sizeof(struct tcphdr)){
         fprintf(stderr,"lest(%d)<sizeof(struct tcphdr)\n",lest);
     }
+
+    tcphdr=(struct tcphdr *)ptr;
     ptr+=sizeof(struct tcphdr);
     lest-=sizeof(struct tcphdr);
 
