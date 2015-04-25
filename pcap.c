@@ -13,9 +13,9 @@
 
 int InitRawSocket(char *device, int promiscFlag,int ipOnly)
 {
-    struct if_req       ifreq;
+    struct ifreq       ifreq;
     struct sockaddr_ll  sa;
-    int                 sock;
+    int                 soc;
 
     if(ipOnly) {
         if ((soc=socket(PF_PACKET,SOCK_RAW,htons(ETH_P_IP)))<0){

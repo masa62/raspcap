@@ -104,7 +104,7 @@ int AnalyzeTcp(u_char *data, int size)
 int AnalyzeUdp(u_char *data, int size)
 {
     u_char          *ptr;
-    int             *lest;
+    int             lest;
     struct udphdr   *udphdr;
 
     ptr=data;
@@ -129,7 +129,7 @@ int AnalyzeIp(u_char *data,int size)
     int             lest;
     struct iphdr    *iphdr;
     u_char          *option;
-    int             optionLen,Len;
+    int             optionLen,len;
     unsigned short  sum;
 
     ptr=data;
@@ -177,13 +177,13 @@ int AnalyzeIp(u_char *data,int size)
         }
         AnalyzeTcp(ptr,lest);
     }
-    else if(iphdr->protool==IPPROTO_UDP){
+    else if(iphdr->protocol==IPPROTO_UDP){
         struct udphdr   *udphdr;
         udphdr=(struct udphdr *)ptr;
         len=ntohs(iphdr->tot_len)-iphdr->ihl*4;
         if(udphdr->check!=0&&checkIPDATAchecksum(iphdr,ptr,len)==0){
             fprintf(stderr,"bad udp checksum\n");
-            return(-1)
+            return(-1);
         }
         AnalyzeUdp(ptr,lest);
     }
@@ -224,7 +224,7 @@ int AnalyzeIpv6(u_char *data, int size)
             fprintf(stderr,"bad tcp6 checksum\n");
             return(-1);
         }
-        Analyze(ptr,lest);
+        AnalyzeTcp(ptr,lest);
     }
     else if(ip6->ip6_nxt==IPPROTO_UDP){
         len=ntohs(ip6->ip6_plen);
@@ -247,7 +247,7 @@ int AnalyzePacket(u_char *data,int size)
     lest=size;
 
     if(lest<sizeof(struct ether_header)){
-        fprintf(stderr,"lest(%d"<sizeof(struct ether_header)\n",lest);
+        fprintf(stderr,"lest(%d)<sizeof(struct ether_header)\n",lest);
         return(-1);
     }
 
